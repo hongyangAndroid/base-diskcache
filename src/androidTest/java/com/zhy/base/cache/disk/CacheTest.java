@@ -1,59 +1,22 @@
-# base-diskcache
+package com.zhy.base.cache.disk;
 
+import android.annotation.TargetApi;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.Drawable;
+import android.os.Build;
+import android.test.AndroidTestCase;
+import android.util.Log;
 
-[DiskLruCache](https://github.com/JakeWharton/DiskLruCache)属于目前最好的Disk Cache库了，但是由于其的存取API，并不是特别好用。
+import org.json.JSONException;
+import org.json.JSONObject;
 
-[ASimpleCache](https://github.com/yangfuhai/ASimpleCache) 提供的API属于比较好用的了。
+import java.io.IOException;
+import java.io.Serializable;
 
-于是萌生想法，对于其公开的API进行扩展，对外除了原有的存取方式以外，提供类似ASimpleCache那样比较简单的API用于存储，而内部的核心实现，依然是DiskLruCache原本的。
-
-## 方法
-
-
-### 存
-
-```java
-put(String key, Bitmap bitmap)
-
-put(String key, byte[] value)
-
-put(String key, String value)
-
-put(String key, JSONObject jsonObject)
-
-put(String key, JSONArray jsonArray)
-
-put(String key, Serializable value)
-
-put(String key, Drawable value)
-
-editor(String key).newOutputStream(0);//原有的方式
-```
-
-### 取
-
-```java
-
-String getAsString(String key);
-
-JSONObject getAsJson(String key)
-
-JSONArray getAsJSONArray(String key)
-
-<T> T getAsSerializable(String key)
-
-Bitmap getAsBitmap(String key)
-
-byte[] getAsBytes(String key)
-
-Drawable getAsDrawable(String key)
-
-InputStream get(String key);//原有的用法
-
-```
-
-## 简单测试
-```java
+/**
+ * Created by zhy on 15/7/28.
+ */
 public class CacheTest extends AndroidTestCase
 {
     DiskLruCacheHelper helper;
@@ -67,6 +30,13 @@ public class CacheTest extends AndroidTestCase
         helper = new DiskLruCacheHelper(getContext());
     }
 
+    @Override
+    protected void tearDown() throws Exception
+    {
+        super.tearDown();
+        Log.e(TAG, "tearDown");
+        helper.close();
+    }
 
     public void testString() throws IOException
     {
@@ -126,23 +96,7 @@ public class CacheTest extends AndroidTestCase
         String name;
     }
 
-    @Override
-    protected void tearDown() throws Exception
-    {
-        super.tearDown();
-        Log.e(TAG, "tearDown");
-        helper.close();
-    }
+
 
 
 }
-```
-
-## 关于我
-
-
-
-* [博客](http://blog.csdn.net/lmj623565791)
-* [新浪微博](http://weibo.com/u/3165018720)
-* [Android教学视频](http://www.imooc.com/space/teacher/id/320852)
-* [email:623565791@qq.com](mailto:623565791@qq.com)

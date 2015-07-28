@@ -13,7 +13,6 @@ import org.json.JSONObject;
 import java.io.BufferedWriter;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.ObjectInputStream;
@@ -222,7 +221,7 @@ public class DiskLruCacheHelper
      */
     public void put(String key, byte[] value)
     {
-        FileOutputStream out = null;
+        OutputStream out = null;
         DiskLruCache.Editor editor = null;
         try
         {
@@ -231,7 +230,7 @@ public class DiskLruCacheHelper
             {
                 return;
             }
-            out = (FileOutputStream) editor.newOutputStream(0);
+            out = editor.newOutputStream(0);
             out.write(value);
             out.flush();
             editor.commit();//write CLEAN
@@ -303,6 +302,13 @@ public class DiskLruCacheHelper
         } catch (IOException e)
         {
             e.printStackTrace();
+            try
+            {
+                editor.abort();
+            } catch (IOException e1)
+            {
+                e1.printStackTrace();
+            }
         } finally
         {
             try
