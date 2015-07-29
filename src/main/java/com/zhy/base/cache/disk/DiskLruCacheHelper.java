@@ -114,6 +114,7 @@ public class DiskLruCacheHelper
             e.printStackTrace();
             try
             {
+                //s
                 edit.abort();//write REMOVE
             } catch (IOException e1)
             {
@@ -174,7 +175,6 @@ public class DiskLruCacheHelper
     public JSONObject getAsJson(String key)
     {
         String val = getAsString(key);
-
         try
         {
             if (val != null)
@@ -363,6 +363,7 @@ public class DiskLruCacheHelper
     public Bitmap getAsBitmap(String key)
     {
         byte[] bytes = getAsBytes(key);
+        if (bytes == null) return null;
         return Utils.bytes2Bitmap(bytes);
     }
 

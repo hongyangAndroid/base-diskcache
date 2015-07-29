@@ -30,13 +30,6 @@ public class CacheTest extends AndroidTestCase
         helper = new DiskLruCacheHelper(getContext());
     }
 
-    @Override
-    protected void tearDown() throws Exception
-    {
-        super.tearDown();
-        Log.e(TAG, "tearDown");
-        helper.close();
-    }
 
     public void testString() throws IOException
     {
@@ -96,7 +89,13 @@ public class CacheTest extends AndroidTestCase
         String name;
     }
 
-
+    @Override
+    protected void tearDown() throws Exception
+    {
+        super.tearDown();
+        Log.e(TAG, "tearDown");
+        helper.close();
+    }
 
 
 }
