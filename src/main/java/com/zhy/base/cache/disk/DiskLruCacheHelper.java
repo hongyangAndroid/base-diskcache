@@ -29,6 +29,11 @@ public class DiskLruCacheHelper
     private static final String DIR_NAME = "diskCache";
     private static final int MAX_COUNT = 5 * 1024 * 1024;
     private static final int DEFAULT_APP_VERSION = 1;
+	
+	/**
+	* The default valueCount when open DiskLruCache.
+	*/
+	private static final int DEFAULT_VALUE_COUNT = 1;
 
     private static final String TAG = "DiskLruCacheHelper";
 
@@ -78,7 +83,7 @@ public class DiskLruCacheHelper
         DiskLruCache diskLruCache = DiskLruCache.open(
                 dir,
                 appVersion,
-                DEFAULT_APP_VERSION,
+                DEFAULT_VALUE_COUNT,
                 maxCount);
 
         return diskLruCache;
@@ -89,7 +94,7 @@ public class DiskLruCacheHelper
         DiskLruCache diskLruCache = DiskLruCache.open(
                 getDiskCacheDir(context, dirName),
                 Utils.getAppVersion(context),
-                DEFAULT_APP_VERSION,
+                DEFAULT_VALUE_COUNT,
                 maxCount);
         return diskLruCache;
     }
