@@ -140,7 +140,6 @@ public class DiskLruCacheHelper
 
     public String getAsString(String key) {
         InputStream inputStream = null;
-        //write READ
         inputStream = get(key);
         if (inputStream == null) return null;
         String str = null;
@@ -148,6 +147,11 @@ public class DiskLruCacheHelper
             str = Util.readFully(new InputStreamReader(inputStream, Util.UTF_8));
         } catch (IOException e) {
             e.printStackTrace();
+            try {
+                inputStream.close();
+            } catch (IOException e1) {
+                e1.printStackTrace();
+            }
         }
         return str;
     }
