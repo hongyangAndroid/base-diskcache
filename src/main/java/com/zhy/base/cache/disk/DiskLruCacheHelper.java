@@ -138,38 +138,20 @@ public class DiskLruCacheHelper
         }
     }
 
-    public String getAsString(String key)
-    {
+    public String getAsString(String key) {
         InputStream inputStream = null;
-        try
-        {
-            //write READ
-            inputStream = get(key);
-            if (inputStream == null) return null;
-            StringBuilder sb = new StringBuilder();
-            int len = 0;
-            byte[] buf = new byte[128];
-            while ((len = inputStream.read(buf)) != -1)
-            {
-                sb.append(new String(buf, 0, len));
-            }
-            return sb.toString();
-
-
-        } catch (IOException e)
-        {
+        //write READ
+        inputStream = get(key);
+        if (inputStream == null) return null;
+        String str = null;
+        try {
+            str = Util.readFully(new InputStreamReader(inputStream, Util.UTF_8));
+        } catch (IOException e) {
             e.printStackTrace();
-            if (inputStream != null)
-                try
-                {
-                    inputStream.close();
-                } catch (IOException e1)
-                {
-                    e1.printStackTrace();
-                }
         }
-        return null;
+        return str;
     }
+
 
 
     public void put(String key, JSONObject jsonObject)
